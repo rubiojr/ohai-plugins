@@ -1,0 +1,10 @@
+Configuring chef-client to load custom ohai-plugins:
+
+1. edit /etc/chef/client.rb
+2. add the following line to the end of the file:
+
+   Ohai::Config[:plugin_path] << '/etc/ohai/plugins' #you can choose any path you want
+
+3. add your custom plugins there (i.e. /etc/ohai/plugins)
+4. reload the client:
+   /etc/init.d/chef-client restart 
