@@ -1,5 +1,6 @@
 # Plugin to extend the virtualization attributes in a Xen Host
 require_plugin 'virtualization'
+provides 'virtualization_extensions'
 
 if not virtualization.nil? and virtualization[:role] == 'host'
   # create a guest_list attributte listing all the guests running
