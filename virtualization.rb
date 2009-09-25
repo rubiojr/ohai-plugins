@@ -9,7 +9,7 @@ if not virtualization.nil? and virtualization[:role] == 'host'
   end
 
   # create a host_info attribute with the info extracted from the xm info command
-  virtualization[:host_info][key.to_sym] = Mash.new
+  virtualization[:host_info] = Mash.new
   from("xm info").each_line do |l|
     t = l.split(':')
     key = t[0]
