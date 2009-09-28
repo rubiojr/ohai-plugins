@@ -5,7 +5,7 @@ provides 'virtualization_extensions'
 if not virtualization.nil? and virtualization[:role] == 'host'
   # create a guest_list attributte listing all the guests running
   virtualization[:guest_list] = []
-  from("xm list | awk '{ print $1 }' |egrep -v '^(Domain-0|Name)'").each_line do |g|
+  `xm list | awk '{ print $1 }' |egrep -v '^(Domain-0|Name)'`.each_line do |g|
     virtualization[:guest_list] << g
   end
 
