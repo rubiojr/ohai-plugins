@@ -2,11 +2,18 @@
 require_plugin 'virtualization'
 provides 'virtualization_extensions'
 
+begin
 if not virtualization.nil? and virtualization[:role] == 'host'
   # create a guest_list attributte listing all the guests running
-  virtualization[:guest_list] = []
-  `xm list | awk '{ print $1 }' |egrep -v '^(Domain-0|Name)'`.each_line do |g|
-    virtualization[:guest_list] << g
+  virtualization[:guest_list] = Mash.new
+  `xm list | egrep -v '^(Domain-0|Name)'`.each_line do |g|
+    name, id, mem, vcpus, state, time = g.split
+    virtualization[:guest_list][name] = Mash.new
+    virtualization[:guest_list][name][:id] = id.strip
+    virtualization[:guest_list][name][:vcpus] = vcpus.strip
+    virtualization[:guest_list][name][:mem] = mem.strip
+    virtualization[:guest_list][name][:time] = time.strip
+    virtualization[:guest_list][name][:state] = state.strip
   end
 
   # create a host_info attribute with the info extracted from the xm info command
@@ -21,3 +28,6 @@ else
   #not a xen host
 end
 
+rescue Exception => e
+  Chef::Log.info e.message
+end
