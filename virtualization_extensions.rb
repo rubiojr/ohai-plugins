@@ -2,7 +2,6 @@
 require_plugin 'virtualization'
 provides 'virtualization_extensions'
 
-begin
 if not virtualization.nil? and virtualization[:role] == 'host'
   # create a guest_list attributte listing all the guests running
   virtualization[:guest_list] = Mash.new
@@ -26,8 +25,4 @@ if not virtualization.nil? and virtualization[:role] == 'host'
   end
 else
   #not a xen host
-end
-
-rescue Exception => e
-  Chef::Log.info e.message
 end
